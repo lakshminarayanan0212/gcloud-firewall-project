@@ -1,5 +1,6 @@
 import requests
 import json
+from tabulate import tabulate
 url = "https://www.googleapis.com/oauth2/v4/token"
 
 payload = "client_id=1051695744365-vgu5crungnhuf7vjo4b4g0lbkmibnlom.apps.googleusercontent.com&client_secret=VM2gNMb8npPuZyf321EzvMo0&grant_type=refresh_token&refresh_token=1%2FDGjpWuhkieRzMHvGatf1-wZKEwpy0CVgagzTvAHQhEc"
@@ -22,5 +23,11 @@ headers = {
     }
 
 response = requests.request("GET","https://www.googleapis.com/compute/v1/projects/my-python-project-204116/global/firewalls", headers=headers)
+resp=response.json()
+list=[]
+i=0
+for item in resp['items']:
+	list.append(item["name"]),list.append(item["direction"])
 
-print(response.text)
+
+print(tabulate(list,headers=['name','direction'],tablefmt="rst"))
