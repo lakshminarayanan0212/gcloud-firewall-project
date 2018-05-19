@@ -1,6 +1,6 @@
-import requests
-import json
-from tabulate import tabulate
+import requests  #importing requeets module
+import json   #importing json module
+from tabulate import tabulate    #import tabulate to draw tables
 url = "https://www.googleapis.com/oauth2/v4/token"
 
 payload = "client_id=1051695744365-vgu5crungnhuf7vjo4b4g0lbkmibnlom.apps.googleusercontent.com&client_secret=VM2gNMb8npPuZyf321EzvMo0&grant_type=refresh_token&refresh_token=1%2FDGjpWuhkieRzMHvGatf1-wZKEwpy0CVgagzTvAHQhEc"
@@ -44,18 +44,30 @@ def getFirewall(token):
 
 
 def patchFirewall(token):
-	name=input("Enter the Firewall_Rule_Name to patched:")
+	name=input("Enter the Firewall_Rule_Name:")
 	headers = {
         'Authorization': '{0} {1}'.format("Bearer",token) #ya29.Glu_BXGxTBJW7yemTQhnqkOoTV91MqxHgctua_iLsQfY4klVfp-VbBEvUQ-1cDWUabbXRJWJ_jpX1a$
     #'Cache-Control': "no-cache",
     #'Postman-Token': "359d6249-38d4-4a6f-88ca-b25cb7a5817d"
         }
-        response= requests.request("PATCH","https://www.googleapis.com/compute/v1/projects/my-python-project-204116/global/firewalls/"+name,headers=headers)
-        resp=response.json()
-        print('{0} {1} {2} {3}'.format(resp["kind"],resp["operationType"],resp["status"],resp["user"]))
+
+	response= requests.request("PATCH","https://www.googleapis.com/compute/v1/projects/my-python-project-204116/global/firewalls/"+name,headers=headers)
+	resp=response.json()
+	print(response.text)
+	print('{0} {1} {2} {3}'.format(resp["kind"],resp["operationType"],resp["status"],resp["user"]))
+
+def insertFirewall(token):
+	headers = {
+        'Authorization': '{0} {1}'.format("Bearer",token) #ya29.Glu_BXGxTBJW7yemTQhnqkOoTV91MqxHgctua_iLsQfY4klVfp-VbBEvUQ-1cDWUabbXRJWJ_jpX1a$
+    #'Cache-Control': "no-cache",
+    #'Postman-Token': "359d6249-38d4-4a6f-88ca-b25cb7a5817d"
+        }
+	response=requests.request("INSERT","https://www.googleapis.com/compute/v1/projects/my-python-project-204116/global/firewalls",headers=headers)
+	print(response.text)
 
 
 Access_token=credential(url,payload)
 #listFirewall(Access_token)
 #getFirewall(Access_token)
-patchFirewall(Access_token)
+#patchFirewall(Access_token)
+insertFirewall(Access_token)
